@@ -5,24 +5,24 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import static jdk.javadoc.doclet.DocletEnvironment.ModuleMode.API;
-
 public class LoginUserTest {
+    UserClient userClient;
     @Before
     public void setUp() {
         RestAssured.baseURI = Api.getBaseURL();
+        userClient = new UserClient();
     }
 
     @Test // задание: логин под существующим пользователем
     @DisplayName("Real User Login")
     public void realUserLogin() {
         User user = new User("laura2022.roob@yahoo.com", "123456", "laura");
-        user.createUser(user);
-        boolean login = user.loginUser(user);
+        userClient.createUser(user);
+        boolean login = userClient.loginUser(user);
         Assert.assertTrue(login);
         // удаление созданного пользователя
-        String accessToken = user.getAccessToken(user);
-        user.deleteUser(accessToken);
+        String accessToken = userClient.getAccessToken(user);
+        userClient.deleteUser(accessToken);
     }
 
     @Test // задание: логин с неверным логином и паролем
@@ -30,7 +30,7 @@ public class LoginUserTest {
     public void notRealUserLogin() {
         Faker faker = new Faker();
         User user = new User(faker.internet().emailAddress(), faker.internet().password(), faker.name().firstName());
-        String message = user.loginUserWrongField(user);
+        String message = userClient.loginUserWrongField(user);
         Assert.assertEquals("email or password are incorrect", message);
     }
 }

@@ -1,4 +1,3 @@
-
 import com.github.javafaker.Faker;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.RestAssured;
@@ -7,24 +6,27 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class CreateOrderTest {
+    UserClient userClient;
     @Before
     public void setUp() {
         RestAssured.baseURI = Api.getBaseURL();
+        userClient = new UserClient();
+
     }
 
     @Test // задание: создание заказа с авторизацией и ингредиентами
     @DisplayName("Creating order")
     public void createOrderAuth() {
         Faker faker = new Faker();
-        User user = new User(faker.internet().emailAddress(), faker.internet().password(), faker.name().firstName());
-        user.createUser(user);
-        String accessToken = user.getAccessToken(user);
+        User user = User.getRandom();
+        boolean response = userClient.createUser(user);
+        String accessToken = userClient.getAccessToken(user);
         Order order = new Order();
         boolean burger = order.createOrderAuth(order.burger(), accessToken);
         System.out.println(burger);
         Assert.assertTrue(burger);
         // удаление созданного пользователя
-        user.deleteUser(accessToken);
+        userClient.deleteUser(accessToken);
     }
 
     @Test // задание: создание заказа без авторизации, с ингредиентами

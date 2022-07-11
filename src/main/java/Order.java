@@ -2,6 +2,8 @@
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
 
+import java.util.HashMap;
+
 import static io.restassured.RestAssured.given;
 
 public class Order {
@@ -25,8 +27,14 @@ public class Order {
                 .extract().body().path("success");
     }
 
+
     public String burger() {
-        return "{\"ingredients\": [\"" + bun + "\",\"" + sauce + "\",\"" + meat + "\",\"" + cheese + "\"]}";
+        var map = new HashMap<String, Object>();
+
+        var ingredients = new String[]{bun, sauce, meat, cheese};
+        map.put("ingredients", ingredients);
+        return map.toString();
+//        return "{\"ingredients\": [\"" + bun + "\",\"" + sauce + "\",\"" + meat + "\",\"" + cheese + "\"]}";
     }
 
     @Step("Неавторизованный пользователь создаёт заказ")

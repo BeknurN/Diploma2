@@ -1,17 +1,16 @@
+import org.apache.commons.lang3.RandomStringUtils;
 
-import static io.restassured.RestAssured.given;
-
-import io.qameta.allure.Step;
-import io.restassured.response.Response;
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
-@Setter
 public class User {
     private String email;
     private String password;
     private String name;
+
+    public static User getRandom() {
+        String email = (RandomStringUtils.randomAlphanumeric(5)+"@"+ RandomStringUtils.randomAlphanumeric(5)+".ru").toLowerCase();
+        String password = RandomStringUtils.randomAlphanumeric(10);
+        String name = RandomStringUtils.randomAlphanumeric(10);
+        return new User(email, password, name);
+    }
 
     public User(String email, String password, String name) {
         this.email = email;
@@ -19,128 +18,27 @@ public class User {
         this.name = name;
     }
 
-    public User() {
+    public String getEmail() {
+        return email;
     }
 
-    @Step("Создание пользователя")
-    public boolean createUser(User user) {
-        return given()
-                .header("Content-type", "application/json")
-                .and()
-                .body(user)
-                .post(Api.postRegister())
-                .then().statusCode(200)
-                .extract()
-                .path("success");
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    @Step("Удаление пользователя")
-    public void deleteUser(String accessToken) {
-        if (accessToken == null) {
-            return;
-        }
-        given()
-                .header("Authorization", accessToken)
-                .header("Content-type", "application/json")
-                .and()
-                .when()
-                .delete(Api.deleteUser())
-                .then()
-                .statusCode(202);
+    public String getPassword() {
+        return password;
     }
 
-    @Step("Логин пользователя")
-    public boolean loginUser(User user) {
-        return given()
-                .header("Content-type", "application/json")
-                .and()
-                .body(user)
-                .post(Api.postLogin())
-                .then()
-                .statusCode(200)
-                .extract().body().path("success");
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    @Step("Создание дубликата пользователя")
-    public String createUserDuplicate(User user) {
-        return given()
-                .header("Content-type", "application/json")
-                .and()
-                .body(user)
-                .post(Api.postRegister())
-                .then().statusCode(403)
-                .extract()
-                .path("message");
+    public String getName() {
+        return name;
     }
 
-    @Step("Создание пользователя без всех полей")
-    public String createUserMissingField(User user) {
-        return given()
-                .header("Content-type", "application/json")
-                .and()
-                .body(user)
-                .post(Api.postRegister())
-                .then().statusCode(403)
-                .extract()
-                .path("message");
-    }
-
-    @Step("Логин с неверными данными")
-    public String loginUserWrongField(User user) {
-        return given()
-                .header("Content-type", "application/json")
-                .and()
-                .body(user)
-                .post(Api.postLogin())
-                .then()
-                .statusCode(401)
-                .extract().body().path("message");
-    }
-
-    @Step("Получение токена доступа")
-    public String getAccessToken(User user) {
-        return given()
-                .header("Content-type", "application/json")
-                .and()
-                .body(user)
-                .post(Api.postLogin())
-                .then().extract().body().path("accessToken");
-    }
-
-    @Step("Изменить данные пользователя")
-    public boolean changeUser(User user, String accessToken) {
-        Response response = given()
-                .header("Content-type", "application/json")
-                .auth().oauth2(accessToken.replace("Bearer ", "")).when()
-                .body(user)
-                .patch(Api.patchUser());
-        return response.then().assertThat()
-                .statusCode(200)
-                .extract().body().path("success");
-    }
-
-    @Step("Изменить данные пользователя без авторизации")
-    public String changeUserError(User user) {
-        Response response = given()
-                .header("Content-type", "application/json")
-                .body(user)
-                .patch(Api.patchUser());
-        return response.then().assertThat()
-                .statusCode(401)
-                .extract().body().path("message");
-    }
-
-    @Step("Получить данные о пользователе")
-    public static String getUser(User user) {
-        String accessToken = given()
-                .header("Content-type", "application/json")
-                .and()
-                .body(user)
-                .post(Api.postLogin())
-                .then().extract().body().path("accessToken");
-        Response response = given()
-                .auth().oauth2(accessToken.replace("Bearer ", "")).when()
-                .get(Api.getUser());
-        return response.body().asString();
+    public void setName(String name) {
+        this.name = name;
     }
 }
