@@ -9,11 +9,8 @@ public class CreateOrderTest {
     UserClient userClient;
     @Before
     public void setUp() {
-        RestAssured.baseURI = Api.getBaseURL();
         userClient = new UserClient();
-
     }
-
     @Test // задание: создание заказа с авторизацией и ингредиентами
     @DisplayName("Creating order")
     public void createOrderAuth() {
@@ -21,7 +18,7 @@ public class CreateOrderTest {
         User user = User.getRandom();
         boolean response = userClient.createUser(user);
         String accessToken = userClient.getAccessToken(user);
-        Order order = new Order();
+        OrderClient order = new OrderClient();
         boolean burger = order.createOrderAuth(order.burger(), accessToken);
         System.out.println(burger);
         Assert.assertTrue(burger);
@@ -32,7 +29,7 @@ public class CreateOrderTest {
     @Test // задание: создание заказа без авторизации, с ингредиентами
     @DisplayName("Creating order")
     public void createOrderNoAuth() {
-        Order order = new Order();
+        OrderClient order = new OrderClient();
         boolean burger = order.createOrderNoAuth(order.burger());
         System.out.println(burger);
         Assert.assertTrue(burger);
@@ -41,7 +38,7 @@ public class CreateOrderTest {
     @Test // задание: создание заказа без ингредиентов
     @DisplayName("Creating order")
     public void createOrderNoIngredients() {
-        Order order = new Order();
+        OrderClient order = new OrderClient();
         String message = order.createOrderNoIngredients();
         System.out.println(message);
         Assert.assertEquals("Ingredient ids must be provided", message);
@@ -50,7 +47,7 @@ public class CreateOrderTest {
     @Test // задание: создание заказа с неверным хешем ингредиентов
     @DisplayName("Creating order")
     public void createOrderWrongIngredientsHash() {
-        Order order = new Order();
+        OrderClient order = new OrderClient();
         String wrongHash = "wrongHash";
         int expected = 500;
         int actual = order.createOrderWrongHash("{\"ingredients\": [\"" + wrongHash + "\"]}");

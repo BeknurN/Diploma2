@@ -6,19 +6,27 @@ import java.util.HashMap;
 
 import static io.restassured.RestAssured.given;
 
-public class Order {
-    String bun = "61c0c5a71d1f82001bdaaa6c";
-    String sauce = "61c0c5a71d1f82001bdaaa72";
-    String meat = "61c0c5a71d1f82001bdaaa6e";
-    String cheese = "61c0c5a71d1f82001bdaaa7a";
+public class OrderClient{
+    String bun;
+    String sauce;
+    String meat;
+    String cheese;
 
-    public Order() {
+    public OrderClient(String bun, String sauce, String meat, String cheese) {
+        this.bun = "61c0c5a71d1f82001bdaaa6c";
+        this.sauce = "61c0c5a71d1f82001bdaaa72";
+        this.meat = "61c0c5a71d1f82001bdaaa6e";;
+        this.cheese = "61c0c5a71d1f82001bdaaa7a";
+    }
+
+    public OrderClient() {
     }
 
     @Step("Авторизованный пользователь создаёт заказ")
     public boolean createOrderAuth(String burgerIngredients, String accessToken) {
         Response response = given()
                 .header("Content-type", "application/json")
+                .spec(User.getRequestSpecification())
                 .auth().oauth2(accessToken.replace("Bearer ", "")).when()
                 .body(burgerIngredients)
                 .post(Api.postOrder());
@@ -41,6 +49,7 @@ public class Order {
     public boolean createOrderNoAuth(String burgerIngredients) {
         Response response = given()
                 .header("Content-type", "application/json")
+                .spec(User.getRequestSpecification())
                 .body(burgerIngredients)
                 .post(Api.postOrder());
         return response.then().assertThat()
@@ -52,6 +61,7 @@ public class Order {
     public String createOrderNoIngredients() {
         Response response = given()
                 .header("Content-type", "application/json")
+                .spec(User.getRequestSpecification())
                 .post(Api.postOrder());
         return response.then().assertThat()
                 .statusCode(400)
@@ -62,6 +72,7 @@ public class Order {
     public int createOrderWrongHash(String wrongHash) {
         Response response = given()
                 .header("Content-type", "application/json")
+                .spec(User.getRequestSpecification())
                 .body(wrongHash)
                 .post(Api.postOrder());
         return response.statusCode();
@@ -71,6 +82,7 @@ public class Order {
     public boolean getUserOrders(String accessToken) {
         Response response = given()
                 .header("Content-type", "application/json")
+                .spec(User.getRequestSpecification())
                 .auth().oauth2(accessToken.replace("Bearer ", "")).when()
                 .get(Api.getUserOrders());
         return response.then().assertThat()
@@ -82,6 +94,7 @@ public class Order {
     public String getUserOrdersNoAuth() {
         Response response = given()
                 .header("Content-type", "application/json")
+                .spec(User.getRequestSpecification())
                 .get(Api.getUserOrders());
         return response.then().assertThat()
                 .statusCode(401)

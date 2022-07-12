@@ -14,6 +14,7 @@ public class UserClient {
     public boolean createUser(User user) {
         return given()
                 .header("Content-type", "application/json")
+                .spec(User.getRequestSpecification())
                 .and()
                 .body(user)
                 .post(Api.postRegister())
@@ -31,6 +32,7 @@ public class UserClient {
         given()
                 .header("Authorization", accessToken)
                 .header("Content-type", "application/json")
+                .spec(User.getRequestSpecification())
                 .and()
                 .when()
                 .delete(Api.deleteUser())
@@ -42,6 +44,7 @@ public class UserClient {
     public boolean loginUser(User user) {
         return given()
                 .header("Content-type", "application/json")
+                .spec(User.getRequestSpecification())
                 .and()
                 .body(user)
                 .post(Api.postLogin())
@@ -54,6 +57,7 @@ public class UserClient {
     public String createUserDuplicate(User user) {
         return given()
                 .header("Content-type", "application/json")
+                .spec(User.getRequestSpecification())
                 .and()
                 .body(user)
                 .post(Api.postRegister())
@@ -66,6 +70,7 @@ public class UserClient {
     public String createUserMissingField(User user) {
         return given()
                 .header("Content-type", "application/json")
+                .spec(User.getRequestSpecification())
                 .and()
                 .body(user)
                 .post(Api.postRegister())
@@ -78,6 +83,7 @@ public class UserClient {
     public String loginUserWrongField(User user) {
         return given()
                 .header("Content-type", "application/json")
+                .spec(User.getRequestSpecification())
                 .and()
                 .body(user)
                 .post(Api.postLogin())
@@ -90,6 +96,7 @@ public class UserClient {
     public String getAccessToken(User user) {
         return given()
                 .header("Content-type", "application/json")
+                .spec(User.getRequestSpecification())
                 .and()
                 .body(user)
                 .post(Api.postLogin())
@@ -103,6 +110,7 @@ public class UserClient {
                 .auth()
                 .oauth2(accessToken.replace("Bearer ", ""))
                 .when()
+                .spec(User.getRequestSpecification())
                 .body(user)
                 .patch(Api.patchUser());
         return response.then().assertThat()
@@ -114,6 +122,7 @@ public class UserClient {
     public String changeUserError(User user) {
         Response response = given()
                 .header("Content-type", "application/json")
+                .spec(User.getRequestSpecification())
                 .body(user)
                 .patch(Api.patchUser());
         return response.then().assertThat()
@@ -125,6 +134,7 @@ public class UserClient {
     public String getUser(User user) {
         String accessToken = given()
                 .header("Content-type", "application/json")
+                .spec(User.getRequestSpecification())
                 .and()
                 .body(user)
                 .post(Api.postLogin())

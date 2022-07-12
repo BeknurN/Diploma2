@@ -9,7 +9,9 @@ public class LoginUserTest {
     UserClient userClient;
     @Before
     public void setUp() {
-        RestAssured.baseURI = Api.getBaseURL();
+//       RestAssured.baseURI = Api.getBaseURL();
+//        RestAssured.baseURI = String.valueOf(User.getRequestSpecification());
+//        RestAssured.baseURI = User.API_URL;
         userClient = new UserClient();
     }
 

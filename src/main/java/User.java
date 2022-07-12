@@ -1,6 +1,6 @@
 import org.apache.commons.lang3.RandomStringUtils;
 
-public class User {
+public class User extends BaseHttpClient{
     private String email;
     private String password;
     private String name;

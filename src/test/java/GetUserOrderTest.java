@@ -9,7 +9,8 @@ public class GetUserOrderTest {
     UserClient userClient;
     @Before
     public void setUp() {
-        RestAssured.baseURI = Api.getBaseURL();
+//        RestAssured.baseURI = Api.getBaseURL();
+//        RestAssured.baseURI = User.API_URL;
         userClient = new UserClient();
     }
 
@@ -20,7 +21,7 @@ public class GetUserOrderTest {
         User user = new User(faker.internet().emailAddress(), faker.internet().password(), faker.name().firstName());
         userClient.createUser(user);
         String accessToken = userClient.getAccessToken(user);
-        Order order = new Order();
+        OrderClient order = new OrderClient();
         order.createOrderAuth(order.burger(), accessToken);
         boolean orders = order.getUserOrders(accessToken);
         System.out.println(orders);
@@ -32,7 +33,7 @@ public class GetUserOrderTest {
     @Test // задание: получение заказов у неавторизованного пользователя
     @DisplayName("Get orders of a non-authorised user")
     public void getNoAuthOrders() {
-        Order order = new Order();
+        OrderClient order = new OrderClient();
         String message = order.getUserOrdersNoAuth();
         System.out.println(message);
         Assert.assertEquals("You should be authorised", message);
