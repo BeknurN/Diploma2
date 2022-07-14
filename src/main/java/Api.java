@@ -1,17 +1,6 @@
-
 import io.qameta.allure.Step;
-import io.qameta.allure.internal.shadowed.jackson.databind.annotation.JsonDeserialize;
-import io.restassured.response.Response;
-
-import static io.restassured.RestAssured.given;
-import static io.restassured.RestAssured.requestSpecification;
 
 public class Api{
-//    @Step("GET BaseURL")
-//    public static String getBaseURL() {
-//        return "https://stellarburgers.nomoreparties.site/api/";
-//    }
-
     @Step("Получение данных об ингредиентах GET /api/ingredients")
     public static String getIngredients() {
         return "ingredients";

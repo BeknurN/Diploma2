@@ -1,17 +1,17 @@
 import com.github.javafaker.Faker;
 import io.qameta.allure.junit4.DisplayName;
-import io.restassured.RestAssured;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class GetUserOrderTest {
+public class GetUserOrderTest extends BaseHttpClient{
     UserClient userClient;
     @Before
     public void setUp() {
 //        RestAssured.baseURI = Api.getBaseURL();
 //        RestAssured.baseURI = User.API_URL;
         userClient = new UserClient();
+        super.setUp();
     }
 
     @Test // задание: получение заказов у авторизованного пользователя

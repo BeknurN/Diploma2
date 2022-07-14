@@ -1,11 +1,21 @@
+import io.restassured.builder.RequestSpecBuilder;
+import io.restassured.specification.RequestSpecification;
 import org.apache.commons.lang3.RandomStringUtils;
+import static io.restassured.http.ContentType.JSON;
 
 public class User extends BaseHttpClient{
     private String email;
     private String password;
     private String name;
 
-    public static User getRandom() {
+    public static RequestSpecification getRequestSpecification() {
+        return new RequestSpecBuilder()
+                .setContentType(JSON)
+                .setBaseUri(API_URL)
+                .build();
+    }
+
+    public static User getRandom () {
         String email = (RandomStringUtils.randomAlphanumeric(5)+"@"+ RandomStringUtils.randomAlphanumeric(5)+".ru").toLowerCase();
         String password = RandomStringUtils.randomAlphanumeric(10);
         String name = RandomStringUtils.randomAlphanumeric(10);

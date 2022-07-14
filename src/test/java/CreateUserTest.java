@@ -1,11 +1,10 @@
 import com.github.javafaker.Faker;
 import io.qameta.allure.junit4.DisplayName;
-import io.restassured.RestAssured;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class CreateUserTest {
+public class CreateUserTest extends BaseHttpClient{
     UserClient userClient;
     @Before
     public void setUp() {
@@ -13,6 +12,7 @@ public class CreateUserTest {
 //        RestAssured.baseURI = String.valueOf(User.getRequestSpecification());
 //        RestAssured.baseURI = User.API_URL;
         userClient = new UserClient();
+        super.setUp();
     }
 
     @Test // задание: создать уникального пользователя

@@ -1,12 +1,10 @@
-
 import io.qameta.allure.junit4.DisplayName;
-import io.restassured.RestAssured;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ChangeUserTest {
+public class ChangeUserTest extends BaseHttpClient{
     private User user;
     private String accessToken;
     private UserClient userClient;
@@ -18,6 +16,7 @@ public class ChangeUserTest {
 //        RestAssured.baseURI = User.API_URL;
         user = User.getRandom();
         userClient = new UserClient();
+        super.setUp();
     }
 
     @Test // задание: изменение данных пользователя с авторизацией - email

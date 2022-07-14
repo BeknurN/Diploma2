@@ -1,19 +1,12 @@
-
 import static io.restassured.RestAssured.given;
-
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
-import lombok.Getter;
-import lombok.Setter;
 
-
-@Getter
-@Setter
-public class UserClient {
+public class UserClient{
     @Step("Создание пользователя")
     public boolean createUser(User user) {
         return given()
-                .header("Content-type", "application/json")
+//                .header("Content-type", "application/json")
                 .spec(User.getRequestSpecification())
                 .and()
                 .body(user)
@@ -31,8 +24,8 @@ public class UserClient {
         }
         given()
                 .header("Authorization", accessToken)
-                .header("Content-type", "application/json")
-                .spec(User.getRequestSpecification())
+//                .header("Content-type", "application/json")
+//                .spec(User.getRequestSpecification())
                 .and()
                 .when()
                 .delete(Api.deleteUser())
@@ -43,9 +36,9 @@ public class UserClient {
     @Step("Логин пользователя")
     public boolean loginUser(User user) {
         return given()
-                .header("Content-type", "application/json")
+//                .header("Content-type", "application/json")
                 .spec(User.getRequestSpecification())
-                .and()
+//                .and()
                 .body(user)
                 .post(Api.postLogin())
                 .then()
@@ -56,9 +49,9 @@ public class UserClient {
     @Step("Создание дубликата пользователя")
     public String createUserDuplicate(User user) {
         return given()
-                .header("Content-type", "application/json")
+//                .header("Content-type", "application/json")
                 .spec(User.getRequestSpecification())
-                .and()
+//                .and()
                 .body(user)
                 .post(Api.postRegister())
                 .then().statusCode(403)
@@ -69,7 +62,7 @@ public class UserClient {
     @Step("Создание пользователя без всех полей")
     public String createUserMissingField(User user) {
         return given()
-                .header("Content-type", "application/json")
+//                .header("Content-type", "application/json")
                 .spec(User.getRequestSpecification())
                 .and()
                 .body(user)
@@ -82,7 +75,7 @@ public class UserClient {
     @Step("Логин с неверными данными")
     public String loginUserWrongField(User user) {
         return given()
-                .header("Content-type", "application/json")
+//                .header("Content-type", "application/json")
                 .spec(User.getRequestSpecification())
                 .and()
                 .body(user)
@@ -95,7 +88,7 @@ public class UserClient {
     @Step("Получение токена доступа")
     public String getAccessToken(User user) {
         return given()
-                .header("Content-type", "application/json")
+//                .header("Content-type", "application/json")
                 .spec(User.getRequestSpecification())
                 .and()
                 .body(user)
@@ -106,7 +99,7 @@ public class UserClient {
     @Step("Изменить данные пользователя")
     public boolean changeUser(User user, String accessToken) {
         Response response = given()
-                .header("Content-type", "application/json")
+//                .header("Content-type", "application/json")
                 .auth()
                 .oauth2(accessToken.replace("Bearer ", ""))
                 .when()
@@ -121,7 +114,7 @@ public class UserClient {
     @Step("Изменить данные пользователя без авторизации")
     public String changeUserError(User user) {
         Response response = given()
-                .header("Content-type", "application/json")
+//                .header("Content-type", "application/json")
                 .spec(User.getRequestSpecification())
                 .body(user)
                 .patch(Api.patchUser());
@@ -133,7 +126,7 @@ public class UserClient {
     @Step("Получить данные о пользователе")
     public String getUser(User user) {
         String accessToken = given()
-                .header("Content-type", "application/json")
+//                .header("Content-type", "application/json")
                 .spec(User.getRequestSpecification())
                 .and()
                 .body(user)

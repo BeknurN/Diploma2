@@ -1,19 +1,20 @@
 import com.github.javafaker.Faker;
 import io.qameta.allure.junit4.DisplayName;
-import io.restassured.RestAssured;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class LoginUserTest {
+public class LoginUserTest extends BaseHttpClient{
     UserClient userClient;
     @Before
     public void setUp() {
-//       RestAssured.baseURI = Api.getBaseURL();
+//        RestAssured.baseURI = Api.getBaseURL();
 //        RestAssured.baseURI = String.valueOf(User.getRequestSpecification());
 //        RestAssured.baseURI = User.API_URL;
         userClient = new UserClient();
+        super.setUp();
     }
+
 
     @Test // задание: логин под существующим пользователем
     @DisplayName("Real User Login")

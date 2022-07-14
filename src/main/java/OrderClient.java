@@ -1,31 +1,20 @@
-
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
-
 import java.util.HashMap;
-
 import static io.restassured.RestAssured.given;
 
-public class OrderClient{
+public class OrderClient extends BaseHttpClient{
     String bun;
     String sauce;
     String meat;
     String cheese;
 
-    public OrderClient(String bun, String sauce, String meat, String cheese) {
-        this.bun = "61c0c5a71d1f82001bdaaa6c";
-        this.sauce = "61c0c5a71d1f82001bdaaa72";
-        this.meat = "61c0c5a71d1f82001bdaaa6e";;
-        this.cheese = "61c0c5a71d1f82001bdaaa7a";
-    }
 
-    public OrderClient() {
-    }
 
     @Step("Авторизованный пользователь создаёт заказ")
     public boolean createOrderAuth(String burgerIngredients, String accessToken) {
         Response response = given()
-                .header("Content-type", "application/json")
+//                .header("Content-type", "application/json")
                 .spec(User.getRequestSpecification())
                 .auth().oauth2(accessToken.replace("Bearer ", "")).when()
                 .body(burgerIngredients)
@@ -48,7 +37,7 @@ public class OrderClient{
     @Step("Неавторизованный пользователь создаёт заказ")
     public boolean createOrderNoAuth(String burgerIngredients) {
         Response response = given()
-                .header("Content-type", "application/json")
+//                .header("Content-type", "application/json")
                 .spec(User.getRequestSpecification())
                 .body(burgerIngredients)
                 .post(Api.postOrder());
@@ -60,7 +49,7 @@ public class OrderClient{
     @Step("Создание заказа без ингредиентов")
     public String createOrderNoIngredients() {
         Response response = given()
-                .header("Content-type", "application/json")
+//                .header("Content-type", "application/json")
                 .spec(User.getRequestSpecification())
                 .post(Api.postOrder());
         return response.then().assertThat()
@@ -71,7 +60,7 @@ public class OrderClient{
     @Step("В заказе указаны ингредиенты с неверным хешем")
     public int createOrderWrongHash(String wrongHash) {
         Response response = given()
-                .header("Content-type", "application/json")
+//                .header("Content-type", "application/json")
                 .spec(User.getRequestSpecification())
                 .body(wrongHash)
                 .post(Api.postOrder());
@@ -81,7 +70,7 @@ public class OrderClient{
     @Step("Получить заказы авторизованного пользователя")
     public boolean getUserOrders(String accessToken) {
         Response response = given()
-                .header("Content-type", "application/json")
+//                .header("Content-type", "application/json")
                 .spec(User.getRequestSpecification())
                 .auth().oauth2(accessToken.replace("Bearer ", "")).when()
                 .get(Api.getUserOrders());
@@ -93,7 +82,7 @@ public class OrderClient{
     @Step("Получить заказы неавторизованного пользователя")
     public String getUserOrdersNoAuth() {
         Response response = given()
-                .header("Content-type", "application/json")
+//                .header("Content-type", "application/json")
                 .spec(User.getRequestSpecification())
                 .get(Api.getUserOrders());
         return response.then().assertThat()

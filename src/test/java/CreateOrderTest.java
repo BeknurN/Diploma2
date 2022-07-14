@@ -1,15 +1,16 @@
 import com.github.javafaker.Faker;
 import io.qameta.allure.junit4.DisplayName;
-import io.restassured.RestAssured;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class CreateOrderTest {
+public class CreateOrderTest extends BaseHttpClient{
     UserClient userClient;
+
     @Before
     public void setUp() {
         userClient = new UserClient();
+        super.setUp();
     }
     @Test // задание: создание заказа с авторизацией и ингредиентами
     @DisplayName("Creating order")
