@@ -6,11 +6,11 @@ import org.junit.Before;
 import static io.restassured.http.ContentType.JSON;
 
 public class BaseHttpClient{
-    @Before
-    public void setUp() {
-        RestAssured.baseURI = API_URL;
-
-    }
+//    @Before
+//    public void setUp() {
+//        RestAssured.baseURI = API_URL;
+//
+//    }
 
     public static final String API_URL = "https://stellarburgers.nomoreparties.site/api/";
 

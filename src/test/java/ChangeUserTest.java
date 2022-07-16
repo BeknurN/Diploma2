@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ChangeUserTest extends BaseHttpClient{
+public class ChangeUserTest {
     private User user;
     private String accessToken;
     private UserClient userClient;
@@ -13,7 +13,7 @@ public class ChangeUserTest extends BaseHttpClient{
     public void setUp() {
         user = User.getRandom();
         userClient = new UserClient();
-        super.setUp();
+
     }
 
     @Test // задание: изменение данных пользователя с авторизацией - email

@@ -4,12 +4,12 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class CreateUserTest extends BaseHttpClient{
+public class CreateUserTest {
     UserClient userClient;
     @Before
     public void setUp() {
         userClient = new UserClient();
-        super.setUp();
+
     }
 
     @Test // задание: создать уникального пользователя

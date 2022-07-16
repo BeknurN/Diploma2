@@ -4,12 +4,12 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class LoginUserTest extends BaseHttpClient{
+public class LoginUserTest{
     UserClient userClient;
     @Before
     public void setUp() {
         userClient = new UserClient();
-        super.setUp();
+
     }
 
 

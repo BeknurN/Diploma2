@@ -4,12 +4,12 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class GetUserOrderTest extends BaseHttpClient{
+public class GetUserOrderTest {
     UserClient userClient;
     @Before
     public void setUp() {
         userClient = new UserClient();
-        super.setUp();
+
     }
 
     @Test // задание: получение заказов у авторизованного пользователя
